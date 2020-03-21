@@ -1,4 +1,4 @@
-r
+
 import pygame
  
 # Define some colors
