@@ -1,4 +1,4 @@
-
+r
 import pygame
  
 # Define some colors
@@ -16,7 +16,7 @@ MARGIN = 1
  
 #PLAYER INSTRUCTIONS
 #1234test we123412sfew
-
+#frfjkwefef
 # Create a 2 dimensional array. A two dimensional
 # array is simply a list of lists.
 grid = []
