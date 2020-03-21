@@ -15,7 +15,7 @@ HEIGHT = 85
 MARGIN = 1
  
 #PLAYER INSTRUCTIONS
-#1234test we123412
+#1234test we123412sfew
 
 # Create a 2 dimensional array. A two dimensional
 # array is simply a list of lists.
