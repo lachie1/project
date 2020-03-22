@@ -13,7 +13,8 @@ HEIGHT = 85
  
 # This sets the margin between each cell
 MARGIN = 1
- 
+COUNTER = 0
+
 #PLAYER INSTRUCTIONS
 #1234test we123412sfew
 #frfjkwefef
@@ -48,11 +49,13 @@ done = False
 # Used to manage how fast the screen updates
 clock = pygame.time.Clock()
 font = pygame.font.Font('freesansbold.ttf', 32) 
-  
+countertext = font.render(str(COUNTER), 1, (10, 10, 10))
+textpos2 = countertext.get_rect()
+textpos2.center = (50,50)
 # create a text suface object, 
 # on which text is drawn on it. 
 # ---------- MAINFRAME FUNCTION -------------
-def acceptmove(typed):
+def acceptmove(typed, inputpos):
   print(typed)
   position = "invalid"
   for row in range(3):
@@ -71,6 +74,7 @@ def acceptmove(typed):
       grid[0][position[1]] = middle
       grid[1][position[1]] = top
       grid[2][position[1]] = ""
+      COUNTER = COUNTER + 1
   elif typed == "Down":
     if position[0] != 2:
       print(position[0])
@@ -82,6 +86,7 @@ def acceptmove(typed):
       grid[2][position[1]] = middle
       grid[1][position[1]] = bottom
       grid[0][position[1]] = ""
+      COUNTER = COUNTER + 1
   elif typed == "Left":
     if position[1] != 0:
       print(position[1])
@@ -93,6 +98,7 @@ def acceptmove(typed):
       grid[position[0]][0] = middle
       grid[position[0]][1] = right
       grid[position[0]][2] = ""
+      COUNTER = COUNTER + 1
   elif typed == "Right":
     if position[1] != 2:
       print(position[1])
@@ -104,6 +110,23 @@ def acceptmove(typed):
       grid[position[0]][1] = left
       grid[position[0]][2] = middle
       grid[position[0]][0] = ""
+      COUNTER = COUNTER + 1
+  elif typed == "Mouse":
+    #mousefunc
+    if position[0] == inputpos[0] and (position[1]+1 == inputpos[1] or position[1]-1 == inputpos[1]):
+      print("yes")
+      print(position, inputpos)
+      grid[position[0]][position[1]] = grid[inputpos[0]][inputpos[1]]
+      grid[inputpos[0]][inputpos[1]] = ""
+      COUNTER = COUNTER + 1
+    elif position[1] == inputpos[1] and (position[0]+1 == inputpos[0] or position[0]-1 == inputpos[0]):
+ #     grid[position[0][position[1]] = grid[inputpos[0]][inputpos[1]]
+      grid[position[0]][position[1]] = grid[inputpos[0]][inputpos[1]]
+      grid[inputpos[0]][inputpos[1]] = ""
+      print("h")
+      COUNTER = COUNTER + 1
+    else:
+      print("No")
 
 # -------- Main Program Loop -----------
 while not done:
@@ -116,22 +139,26 @@ while not done:
             # Change the x/y screen coordinates to grid coordinates
             column = pos[0] // (WIDTH + MARGIN)
             row = pos[1] // (HEIGHT + MARGIN)
+            print(pos)
+            info = [row,column]
+            print(info)
             # Set that location to one
  #           grid[row][column] = 1
             print("Click ", pos, "Grid coordinates: ", row, column, "Selected Tile: ",grid[row][column])
+            acceptmove("Mouse", info)
         elif event.type == pygame.KEYDOWN:
           if event.key == pygame.K_w:
             print("Player moved up!")
-            acceptmove("Up")
+            acceptmove("Up", "none")
           elif event.key == pygame.K_a:
             print("Player moved left!")
-            acceptmove("Left")
+            acceptmove("Left", "none")
           elif event.key == pygame.K_s:
             print("Player moved down!")
-            acceptmove("Down")
+            acceptmove("Down", "none")
           elif event.key == pygame.K_d:
             print("Player moved right!")
-            acceptmove("Right")
+            acceptmove("Right", "none")
 
  
     # Set the screen background
@@ -153,6 +180,7 @@ while not done:
             textpos = text.get_rect()
             textpos.center = ((((MARGIN + WIDTH) * column + MARGIN) + 40),((MARGIN + HEIGHT) * row + MARGIN)+40)
             screen.blit(text, textpos)
+            screen.blit(countertext, textpos2)
  #           pygame.screen.blit(self.font.render('Hello!', True, (255,0,0)), (200, 100))
  
     # Limit to 60 frames per second
