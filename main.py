@@ -13,7 +13,6 @@ HEIGHT = 85
  
 # This sets the margin between each cell
 MARGIN = 1
-COUNTER = 0
 
 #PLAYER INSTRUCTIONS
 #1234test we123412sfew
@@ -22,6 +21,7 @@ COUNTER = 0
 # array is simply a list of lists.
 grid = []
 number = 1
+counter = 0
 for row in range(3):
     # Add an empty array that will hold each cell
     # in this row
@@ -49,9 +49,9 @@ done = False
 # Used to manage how fast the screen updates
 clock = pygame.time.Clock()
 font = pygame.font.Font('freesansbold.ttf', 32) 
-countertext = font.render(str(COUNTER), 1, (10, 10, 10))
-textpos2 = countertext.get_rect()
-textpos2.center = (50,50)
+#countertext = font.render(str(counter), 1, (10, 10, 10))
+#textpos2 = countertext.get_rect()
+#textpos2.center = (50,50)
 # create a text suface object, 
 # on which text is drawn on it. 
 # ---------- MAINFRAME FUNCTION -------------
@@ -74,7 +74,7 @@ def acceptmove(typed, inputpos):
       grid[0][position[1]] = middle
       grid[1][position[1]] = top
       grid[2][position[1]] = ""
-      COUNTER = COUNTER + 1
+#      counter = counter + 1
   elif typed == "Down":
     if position[0] != 2:
       print(position[0])
@@ -86,7 +86,7 @@ def acceptmove(typed, inputpos):
       grid[2][position[1]] = middle
       grid[1][position[1]] = bottom
       grid[0][position[1]] = ""
-      COUNTER = COUNTER + 1
+#      counter = counter + 1
   elif typed == "Left":
     if position[1] != 0:
       print(position[1])
@@ -98,7 +98,7 @@ def acceptmove(typed, inputpos):
       grid[position[0]][0] = middle
       grid[position[0]][1] = right
       grid[position[0]][2] = ""
-      COUNTER = COUNTER + 1
+#      counter = counter + 1
   elif typed == "Right":
     if position[1] != 2:
       print(position[1])
@@ -110,7 +110,7 @@ def acceptmove(typed, inputpos):
       grid[position[0]][1] = left
       grid[position[0]][2] = middle
       grid[position[0]][0] = ""
-      COUNTER = COUNTER + 1
+ #     counter = counter + 1
   elif typed == "Mouse":
     #mousefunc
     if position[0] == inputpos[0] and (position[1]+1 == inputpos[1] or position[1]-1 == inputpos[1]):
@@ -118,13 +118,13 @@ def acceptmove(typed, inputpos):
       print(position, inputpos)
       grid[position[0]][position[1]] = grid[inputpos[0]][inputpos[1]]
       grid[inputpos[0]][inputpos[1]] = ""
-      COUNTER = COUNTER + 1
+   #   counter = counter + 1
     elif position[1] == inputpos[1] and (position[0]+1 == inputpos[0] or position[0]-1 == inputpos[0]):
  #     grid[position[0][position[1]] = grid[inputpos[0]][inputpos[1]]
       grid[position[0]][position[1]] = grid[inputpos[0]][inputpos[1]]
       grid[inputpos[0]][inputpos[1]] = ""
       print("h")
-      COUNTER = COUNTER + 1
+ #     counter = counter + 1
     else:
       print("No")
 
@@ -180,7 +180,7 @@ while not done:
             textpos = text.get_rect()
             textpos.center = ((((MARGIN + WIDTH) * column + MARGIN) + 40),((MARGIN + HEIGHT) * row + MARGIN)+40)
             screen.blit(text, textpos)
-            screen.blit(countertext, textpos2)
+ #           screen.blit(countertext, textpos2)
  #           pygame.screen.blit(self.font.render('Hello!', True, (255,0,0)), (200, 100))
  
     # Limit to 60 frames per second
