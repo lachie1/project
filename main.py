@@ -176,12 +176,7 @@ while not done:
             color = WHITE
             if grid[row][column] == "":
                 color = GREEN
-            pygame.draw.rect(screen,
-                             color,
-                             [(MARGIN + WIDTH) * column + MARGIN,
-                              (MARGIN + HEIGHT) * row + MARGIN,
-                              WIDTH,
-                              HEIGHT])
+            pygame.draw.rect(screen, color, [(MARGIN + WIDTH) * column + MARGIN, (MARGIN + HEIGHT) * row + MARGIN,WIDTH,HEIGHT])
             text = font.render(str(grid[row][column]), 1, (10, 10, 10))
             textpos = text.get_rect()
             textpos.center = ((((MARGIN + WIDTH) * column + MARGIN) + 40),((MARGIN + HEIGHT) * row + MARGIN)+40)
