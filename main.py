@@ -61,7 +61,9 @@ def BootUp():
   countertext = font2.render(("Move Counter:" + counter), 1, (255, 255, 255))
   textpos2 = countertext.get_rect()
   textpos2.center = (350,20)
-
+  ################################
+  print("Boot Complete")
+  ################################
 
 BootUp()
 
@@ -150,14 +152,15 @@ def checkwin():
       checker.append(entry)
   if checker[8] == "":
     checker[8] = 0
-    valuex = False
+    failcount = 0
     for number in range(8):
       if int(checker[number-1]) == int(checker[number]) - 1:
-        valuex = True
+        print("pass")
       else:
         print(int(checker[number-1]), int(checker[number]))
-        valuex = False
-    if valuex == True:
+        print("fail")
+        failcount = failcount + 1
+    if failcount == 0:
       done = True
       print("##########################")
       print("WIN")
