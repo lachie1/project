@@ -1,61 +1,68 @@
 
 import pygame
- 
-# Define some colors
-BLACK = (0, 0, 0)
-WHITE = (255, 255, 255)
-GREEN = (0, 255, 0)
-RED = (255, 0, 0)
- 
-# This sets the WIDTH and HEIGHT of each grid location
-WIDTH = 85
-HEIGHT = 85
- 
-# This sets the margin between each cell
-MARGIN = 1
 
-#PLAYER INSTRUCTIONS
-#1234test we123412sfew
-#frfjkwefef
-# Create a 2 dimensional array. A two dimensional
-# array is simply a list of lists.
-grid = []
-number = 1
-counter = "0"
-for row in range(3):
-    # Add an empty array that will hold each cell
-    # in this row
+def BootUp():
+  print("Config Booting Globals")
+  ####################################
+  global BLACK
+  global WHITE
+  global GREEN
+  global RED
+  global WIDTH
+  global HEIGHT
+  global MARGIN
+  global grid
+  global number
+  global counter
+  global WINDOW_SIZE
+  global done
+  global screen
+  global clock
+  global font
+  global font2
+  global countertext
+  global textpos2
+  ####################################
+  print("Global Booting Values")
+  ####################################
+  BLACK = (0, 0, 0)
+  WHITE = (255, 255, 255)
+  GREEN = (0, 255, 0)
+  RED = (255, 0, 0)
+  WIDTH = 85
+  HEIGHT = 85
+  MARGIN = 1
+  grid = []
+  number = 1
+  counter = "0"
+  WINDOW_SIZE = [500, 255]
+  done = False
+  ##################################
+  print("Booting Grid Setup")
+  ##################################
+  for row in range(3):
     grid.append([])
     for column in range(3):
         grid[row].append(number)  # Append a cell
         number = number + 1
+  grid[2][2] = ""
+  #################################
+  print("Booting Pygame Init")
+  #################################
+  pygame.init()
+  screen = pygame.display.set_mode(WINDOW_SIZE)
+  pygame.display.set_caption("Number Puzzle")
+
+  clock = pygame.time.Clock()
+  font = pygame.font.Font('freesansbold.ttf', 32) 
+  font2 = pygame.font.Font('freesansbold.ttf', 22) 
+  countertext = font2.render(("Move Counter:" + counter), 1, (255, 255, 255))
+  textpos2 = countertext.get_rect()
+  textpos2.center = (350,20)
 
 
-grid[2][2] = ""
-print(grid[1][0])
-# Initialize pygame
-pygame.init()
- 
-# Set the HEIGHT and WIDTH of the screen
-WINDOW_SIZE = [500, 255]
-screen = pygame.display.set_mode(WINDOW_SIZE)
- 
-# Set title of screen
-pygame.display.set_caption("Number Puzzle")
- 
-# Loop until the user clicks the close button.
-done = False
+BootUp()
 
-stringformat = "Move Counter: ", counter
-# Used to manage how fast the screen updates
-clock = pygame.time.Clock()
-font = pygame.font.Font('freesansbold.ttf', 32) 
-font2 = pygame.font.Font('freesansbold.ttf', 22) 
-countertext = font2.render(("Move Counter:" + counter), 1, (255, 255, 255))
-textpos2 = countertext.get_rect()
-textpos2.center = (350,20)
-# create a text suface object, 
-# on which text is drawn on it. 
 # ---------- MAINFRAME FUNCTION -------------
 def acceptmove(typed, inputpos):
   global counter
@@ -134,20 +141,14 @@ def acceptmove(typed, inputpos):
 
 # -------- Main Program Loop -----------
 while not done:
-    for event in pygame.event.get():  # User did something
-        if event.type == pygame.QUIT:  # If user clicked close
-            done = True  # Flag that we are done so we exit this loop
+    for event in pygame.event.get(): 
+        if event.type == pygame.QUIT:  
+            done = True  
         elif event.type == pygame.MOUSEBUTTONDOWN:
-            # User clicks the mouse. Get the position
             pos = pygame.mouse.get_pos()
-            # Change the x/y screen coordinates to grid coordinates
             column = pos[0] // (WIDTH + MARGIN)
             row = pos[1] // (HEIGHT + MARGIN)
-            print(pos)
             info = [row,column]
-            print(info)
-            # Set that location to one
- #           grid[row][column] = 1
             print("Click ", pos, "Grid coordinates: ", row, column, "Selected Tile: ",grid[row][column])
             acceptmove("Mouse", info)
         elif event.type == pygame.KEYDOWN:
@@ -164,11 +165,9 @@ while not done:
             print("Player moved right!")
             acceptmove("Right", "none")
 
- 
-    # Set the screen background
     screen.fill(BLACK)
  
-    # Draw the grid
+
     for row in range(3):
         for column in range(3):
             color = WHITE
@@ -186,14 +185,10 @@ while not done:
             screen.blit(text, textpos)
     countertext = font2.render(("Move Counter:" + counter), 1, (255, 255, 255))
     screen.blit(countertext, textpos2)
- #           pygame.screen.blit(self.font.render('Hello!', True, (255,0,0)), (200, 100))
  
-    # Limit to 60 frames per second
     clock.tick(120)
  
-    # Go ahead and update the screen with what we've drawn.
     pygame.display.flip()
  
-# Be IDLE friendly. If you forget this line, the program will 'hang'
-# on exit.
+
 pygame.quit()
