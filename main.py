@@ -1,5 +1,6 @@
 
 import pygame
+import random
 
 def BootUp():
   print("Config Booting Globals")
@@ -33,19 +34,20 @@ def BootUp():
   HEIGHT = 85
   MARGIN = 1
   grid = []
-  number = 1
+  number = [1,2,3,4,5,6,7,8,""]
+  number2 = 0
   counter = "0"
   WINDOW_SIZE = [500, 255]
   done = False
   ##################################
   print("Booting Grid Setup")
   ##################################
+  random.shuffle(number)
   for row in range(3):
     grid.append([])
     for column in range(3):
-        grid[row].append(number)  # Append a cell
-        number = number + 1
-  grid[2][2] = ""
+        grid[row].append(number[number2])  # Append a cell
+        number2 = number2 + 1
   #################################
   print("Booting Pygame Init")
   #################################
@@ -138,6 +140,30 @@ def acceptmove(typed, inputpos):
       print(counter)
     else:
       print("No")
+  checkwin()
+
+def checkwin():
+  global done
+  checker = []
+  for number in range(3):
+    for entry in grid[number]:
+      checker.append(entry)
+  if checker[8] == "":
+    checker[8] = 0
+    valuex = False
+    for number in range(8):
+      if int(checker[number-1]) == int(checker[number]) - 1:
+        valuex = True
+      else:
+        print(int(checker[number-1]), int(checker[number]))
+        valuex = False
+    if valuex == True:
+      done = True
+      print("##########################")
+      print("WIN")
+      print("##########################")
+    checker[8] = ""
+
 
 # -------- Main Program Loop -----------
 while not done:
@@ -164,7 +190,7 @@ while not done:
           elif event.key == pygame.K_d:
             print("Player moved right!")
             acceptmove("Right", "none")
-          elif event.key == pygame.K_g:
+          elif event.key == pygame.K_r:
             print("Restarting Game!")
             BootUp()
 
