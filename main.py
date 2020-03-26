@@ -164,6 +164,9 @@ while not done:
           elif event.key == pygame.K_d:
             print("Player moved right!")
             acceptmove("Right", "none")
+          elif event.key == pygame.K_g:
+            print("Restarting Game!")
+            BootUp()
 
     screen.fill(BLACK)
  
@@ -185,10 +188,10 @@ while not done:
             screen.blit(text, textpos)
     countertext = font2.render(("Move Counter:" + counter), 1, (255, 255, 255))
     screen.blit(countertext, textpos2)
- 
+
     clock.tick(120)
- 
+
     pygame.display.flip()
- 
+
 
 pygame.quit()
