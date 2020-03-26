@@ -37,7 +37,7 @@ print(grid[1][0])
 pygame.init()
  
 # Set the HEIGHT and WIDTH of the screen
-WINDOW_SIZE = [255, 255]
+WINDOW_SIZE = [500, 255]
 screen = pygame.display.set_mode(WINDOW_SIZE)
  
 # Set title of screen
@@ -45,13 +45,14 @@ pygame.display.set_caption("Number Puzzle")
  
 # Loop until the user clicks the close button.
 done = False
- 
+stringformat = str(counter)
 # Used to manage how fast the screen updates
 clock = pygame.time.Clock()
 font = pygame.font.Font('freesansbold.ttf', 32) 
-#countertext = font.render(str(counter), 1, (10, 10, 10))
-#textpos2 = countertext.get_rect()
-#textpos2.center = (50,50)
+font2 = pygame.font.Font('freesansbold.ttf', 22) 
+countertext = font2.render(("Move Counter:"), 1, (255, 255, 255))
+textpos2 = countertext.get_rect()
+textpos2.center = (350,20)
 # create a text suface object, 
 # on which text is drawn on it. 
 # ---------- MAINFRAME FUNCTION -------------
@@ -180,11 +181,11 @@ while not done:
             textpos = text.get_rect()
             textpos.center = ((((MARGIN + WIDTH) * column + MARGIN) + 40),((MARGIN + HEIGHT) * row + MARGIN)+40)
             screen.blit(text, textpos)
- #           screen.blit(countertext, textpos2)
+            screen.blit(countertext, textpos2)
  #           pygame.screen.blit(self.font.render('Hello!', True, (255,0,0)), (200, 100))
  
     # Limit to 60 frames per second
-    clock.tick(60)
+    clock.tick(120)
  
     # Go ahead and update the screen with what we've drawn.
     pygame.display.flip()
