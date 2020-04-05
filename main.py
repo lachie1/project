@@ -9,7 +9,6 @@ number = [1,2,3,4,5,6,7,8,""]
 number2 = 0
 
 done = False
-win = False
 
 random.shuffle(number)
 for row in range(3):
@@ -149,7 +148,7 @@ def checkwin():
       print("##########################")
       print("WIN")
       print("##########################")
-      win = True
+      done = True
     checker[8] = ""
 
 
