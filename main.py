@@ -35,7 +35,6 @@ def BootUp():
   pygame.init()
 #  screen = pygame.display.set_mode(config["WINDOW_SIZE"])
   pygame.display.set_caption("Number Puzzle")
-
   ################################
   print("Boot Complete")
   ################################
@@ -165,20 +164,21 @@ while not done:
             print("Click ", pos, "Grid coordinates: ", row, column, "Selected Tile: ",grid[row][column])
             acceptmove("Mouse", info)
         elif event.type == pygame.KEYDOWN:
-          if event.key == pygame.K_w:
+          if event.key == pygame.K_UP:
             print("Player moved up!")
             acceptmove("Up", "none")
-          elif event.key == pygame.K_a:
+          elif event.key == pygame.K_LEFT:
             print("Player moved left!")
             acceptmove("Left", "none")
-          elif event.key == pygame.K_s:
+          elif event.key == pygame.K_DOWN:
             print("Player moved down!")
             acceptmove("Down", "none")
-          elif event.key == pygame.K_d:
+          elif event.key == pygame.K_RIGHT:
             print("Player moved right!")
             acceptmove("Right", "none")
           elif event.key == pygame.K_r:
             print("Restarting Game!")
+            random.shuffle(grid)
             BootUp()
 
     screen.fill(config["BLACK"])
