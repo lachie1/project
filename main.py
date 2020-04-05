@@ -2,74 +2,59 @@
 import pygame
 import random
 
+config = {}
+
+grid = []
+number = [1,2,3,4,5,6,7,8,""]
+number2 = 0
+
+done = False
+win = False
+
+random.shuffle(number)
+for row in range(3):
+  grid.append([])
+  for column in range(3):
+    grid[row].append(number[number2])  # Append a cell
+    number2 = number2 + 1
 def BootUp():
   print("Config Booting Globals")
   ####################################
-  global BLACK
-  global WHITE
-  global GREEN
-  global RED
-  global WIDTH
-  global HEIGHT
-  global MARGIN
-  global grid
-  global number
-  global counter
-  global WINDOW_SIZE
-  global done
-  global screen
-  global clock
-  global font
-  global font2
-  global countertext
-  global textpos2
-  ####################################
-  print("Global Booting Values")
-  ####################################
-  BLACK = (0, 0, 0)
-  WHITE = (255, 255, 255)
-  GREEN = (0, 255, 0)
-  RED = (255, 0, 0)
-  WIDTH = 85
-  HEIGHT = 85
-  MARGIN = 1
-  grid = []
-  number = [1,2,3,4,5,6,7,8,""]
-  number2 = 0
-  counter = "0"
-  WINDOW_SIZE = [500, 255]
-  done = False
+  config["BLACK"] = (0, 0, 0)
+  config["WHITE"] = (255, 255, 255)
+  config["GREEN"] = (0, 255, 0)
+  config["RED"] = (255, 0, 0)
+  config["WIDTH"] = 85
+  config["HEIGHT"] = 85
+  config["MARGIN"] = 1
+  config["WINDOW_SIZE"]= [500, 255]
+  config["COUNTER"] = "0"
   ##################################
-  print("Booting Grid Setup")
-  ##################################
-  random.shuffle(number)
-  for row in range(3):
-    grid.append([])
-    for column in range(3):
-        grid[row].append(number[number2])  # Append a cell
-        number2 = number2 + 1
   #################################
   print("Booting Pygame Init")
   #################################
   pygame.init()
-  screen = pygame.display.set_mode(WINDOW_SIZE)
+#  screen = pygame.display.set_mode(config["WINDOW_SIZE"])
   pygame.display.set_caption("Number Puzzle")
 
-  clock = pygame.time.Clock()
-  font = pygame.font.Font('freesansbold.ttf', 32) 
-  font2 = pygame.font.Font('freesansbold.ttf', 22) 
-  countertext = font2.render(("Move Counter:" + counter), 1, (255, 255, 255))
-  textpos2 = countertext.get_rect()
-  textpos2.center = (350,20)
   ################################
   print("Boot Complete")
   ################################
 
 BootUp()
 
+screen = pygame.display.set_mode(config["WINDOW_SIZE"])
+clock = pygame.time.Clock()
+font = pygame.font.Font('freesansbold.ttf', 32) 
+font2 = pygame.font.Font('freesansbold.ttf', 22) 
+
+
+countertext = font2.render(("Move Counter:" + config["COUNTER"]), 1, (255, 255, 255))
+textpos2 = countertext.get_rect()
+textpos2.center = (350,20)
+
 # ---------- MAINFRAME FUNCTION -------------
 def acceptmove(typed, inputpos):
-  global counter
   print(typed)
   position = "invalid"
   for row in range(3):
@@ -88,7 +73,7 @@ def acceptmove(typed, inputpos):
       grid[0][position[1]] = middle
       grid[1][position[1]] = top
       grid[2][position[1]] = ""
-      counter = str(int(counter) + 1)
+      config["COUNTER"] = str(int(config["COUNTER"]) + 1)
   elif typed == "Down":
     if position[0] != 2:
       print(position[0])
@@ -100,7 +85,7 @@ def acceptmove(typed, inputpos):
       grid[2][position[1]] = middle
       grid[1][position[1]] = bottom
       grid[0][position[1]] = ""
-      counter = str(int(counter) + 1)
+      config["COUNTER"] = str(int(config["COUNTER"]) + 1)
   elif typed == "Left":
     if position[1] != 0:
       print(position[1])
@@ -112,7 +97,7 @@ def acceptmove(typed, inputpos):
       grid[position[0]][0] = middle
       grid[position[0]][1] = right
       grid[position[0]][2] = ""
-      counter = str(int(counter) + 1)
+      config["COUNTER"] = str(int(config["COUNTER"]) + 1)
   elif typed == "Right":
     if position[1] != 2:
       print(position[1])
@@ -124,7 +109,7 @@ def acceptmove(typed, inputpos):
       grid[position[0]][1] = left
       grid[position[0]][2] = middle
       grid[position[0]][0] = ""
-      counter = str(int(counter) + 1)
+      config["COUNTER"] = str(int(config["COUNTER"]) + 1)
   elif typed == "Mouse":
     #mousefunc
     if position[0] == inputpos[0] and (position[1]+1 == inputpos[1] or position[1]-1 == inputpos[1]):
@@ -132,20 +117,19 @@ def acceptmove(typed, inputpos):
       print(position, inputpos)
       grid[position[0]][position[1]] = grid[inputpos[0]][inputpos[1]]
       grid[inputpos[0]][inputpos[1]] = ""
-      counter = str(int(counter) + 1)
+      config["COUNTER"] = str(int(config["COUNTER"]) + 1)
     elif position[1] == inputpos[1] and (position[0]+1 == inputpos[0] or position[0]-1 == inputpos[0]):
  #     grid[position[0][position[1]] = grid[inputpos[0]][inputpos[1]]
       grid[position[0]][position[1]] = grid[inputpos[0]][inputpos[1]]
       grid[inputpos[0]][inputpos[1]] = ""
       print("h")
-      counter = str(int(counter) + 1)
-      print(counter)
+      config["COUNTER"] = str(int(config["COUNTER"]) + 1)
+      print(config["COUNTER"])
     else:
       print("No")
   checkwin()
 
 def checkwin():
-  global done
   checker = []
   for number in range(3):
     for entry in grid[number]:
@@ -165,6 +149,7 @@ def checkwin():
       print("##########################")
       print("WIN")
       print("##########################")
+      win = True
     checker[8] = ""
 
 
@@ -175,8 +160,8 @@ while not done:
             done = True  
         elif event.type == pygame.MOUSEBUTTONDOWN:
             pos = pygame.mouse.get_pos()
-            column = pos[0] // (WIDTH + MARGIN)
-            row = pos[1] // (HEIGHT + MARGIN)
+            column = pos[0] // (config["WIDTH"] + config["MARGIN"])
+            row = pos[1] // (config["HEIGHT"] + config["MARGIN"])
             info = [row,column]
             print("Click ", pos, "Grid coordinates: ", row, column, "Selected Tile: ",grid[row][column])
             acceptmove("Mouse", info)
@@ -197,20 +182,20 @@ while not done:
             print("Restarting Game!")
             BootUp()
 
-    screen.fill(BLACK)
+    screen.fill(config["BLACK"])
  
 
     for row in range(3):
         for column in range(3):
-            color = WHITE
+            color = config["WHITE"]
             if grid[row][column] == "":
-                color = GREEN
-            pygame.draw.rect(screen, color, [(MARGIN + WIDTH) * column + MARGIN, (MARGIN + HEIGHT) * row + MARGIN,WIDTH,HEIGHT])
+                color = config["GREEN"]
+            pygame.draw.rect(screen, color, [(config["MARGIN"] + config["WIDTH"]) * column + config["MARGIN"], (config["MARGIN"] + config["HEIGHT"]) * row + config["MARGIN"],config["WIDTH"],config["HEIGHT"]])
             text = font.render(str(grid[row][column]), 1, (10, 10, 10))
             textpos = text.get_rect()
-            textpos.center = ((((MARGIN + WIDTH) * column + MARGIN) + 40),((MARGIN + HEIGHT) * row + MARGIN)+40)
+            textpos.center = ((((config["MARGIN"] + config["WIDTH"]) * column + config["MARGIN"]) + 40),((config["MARGIN"] + config["HEIGHT"]) * row + config["MARGIN"]+40))
             screen.blit(text, textpos)
-    countertext = font2.render(("Move Counter:" + counter), 1, (255, 255, 255))
+    countertext = font2.render(("Move Counter:" + config["COUNTER"]), 1, (255, 255, 255))
     screen.blit(countertext, textpos2)
 
     clock.tick(120)
